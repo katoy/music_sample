@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
+import '/providers/audio_provider.dart';
+import '/screens/music_player_screen.dart';
 import 'package:provider/provider.dart';
-import 'screens/music_player_screen.dart';
-import 'providers/audio_provider.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AudioProvider()),
-      ],
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Music Player App',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: MusicPlayerScreen(),
+    return ChangeNotifierProvider(
+      create: (context) => AudioProvider(),
+      child: MaterialApp(
+        title: 'Flutter Music Player',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MusicPlayerScreen(),
+      ),
     );
   }
 }

@@ -28,12 +28,19 @@ class AudioProvider with ChangeNotifier {
 
   final AudioPlayer _audioPlayer = AudioPlayer();
 
+  AudioFile? _currentAudio;
+  int? _currentIndex;
+
   List<AudioFile> get playlist => _playlist;
   bool get isPlaying => _audioPlayer.playing;
   AudioFile? get currentAudio => _audioPlayer.currentIndex != null
       ? _playlist[_audioPlayer.currentIndex!]
       : null;
   Stream<Duration> get currentPositionStream => _audioPlayer.positionStream;
+  Stream<Duration?> get durationStream => _audioPlayer.durationStream;
+
+  bool get playing => _audioPlayer.playing;
+  AudioFile? get current => currentAudio;
 
   AudioProvider() {
     _audioPlayer.setAudioSource(
@@ -74,5 +81,20 @@ class AudioProvider with ChangeNotifier {
 
   void disposeAudioPlayer() {
     _audioPlayer.dispose();
+  }
+
+  Future<void> play(AudioFile audio, int index) async {
+    _currentAudio = audio;
+    _currentIndex = index;
+
+    await _audioPlayer.setUrl(audio.audioUrl);
+    await _audioPlayer.seek(audio.startPosition);
+    await _audioPlayer.play();
+    notifyListeners();
+  }
+
+  Future<void> pause() async {
+    await _audioPlayer.pause();
+    notifyListeners();
   }
 }
