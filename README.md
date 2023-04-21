@@ -37,7 +37,6 @@ music_player_app/
   ├── pubspec.yaml
   └── README.md
 
-```
 
 最初にファイル構成を示してください。
 ファイルのコードブロック毎に回答を分割して示してください。
@@ -51,7 +50,6 @@ music_player_app/
 ![chrome](./screenshots/chrome.png)
 - ios
 ![ios](./screenshots/ios.png)
-
 
 ## See
 - https://github.com/suragch/audio_playlist_flutter_demo/blob/master/final/lib/page_manager.dart
