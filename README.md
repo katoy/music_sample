@@ -44,3 +44,15 @@ music_player_app/
 "次を表示" と言ったら、次の回答を示してください。
 ファイルに内容は省略せずに表示してください。すべてのメソッドは必ず実装してください。
 ```
+
+## スクリーンショット
+
+- chreom
+![chrome](./screenshots/chrome.png)
+- ios
+![ios](./screenshots/ios.png)
+
+
+## See
+- https://github.com/suragch/audio_playlist_flutter_demo/blob/master/final/lib/page_manager.dart
+  playlist_flutter_demo

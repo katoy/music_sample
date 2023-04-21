@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '/widgets/audio_list_tile.dart';
-import 'package:provider/provider.dart';
 import '/providers/audio_provider.dart';
+import '/widgets/audio_list_tile.dart';
+import '/widgets/player_controls.dart';
+import 'package:provider/provider.dart';
 
 class MusicPlayerScreen extends StatelessWidget {
   @override
@@ -11,15 +12,27 @@ class MusicPlayerScreen extends StatelessWidget {
       // backgroundColor: Colors.blueGrey,
       body: Consumer<AudioProvider>(
         builder: (context, audioProvider, child) {
-          return ListView.separated(
-            itemCount: audioProvider.playlist.length,
-            separatorBuilder: (BuildContext context, int index) {
-              return Divider();
-            },
-            itemBuilder: (context, index) {
-              return AudioListTile(
-                  audio: audioProvider.playlist[index], index: index);
-            },
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemCount: audioProvider.playlist_length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider();
+                  },
+                  itemBuilder: (context, index) {
+                    return AudioListTile(index: index);
+                  },
+                ),
+              ),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: PlayerControls(),
+                ),
+              ),
+            ],
           );
         },
       ),

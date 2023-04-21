@@ -4,36 +4,41 @@ import '/models/audio_file.dart';
 import '/providers/audio_provider.dart';
 
 class AudioListTile extends StatelessWidget {
-  final AudioFile audio;
   final int index;
 
-  AudioListTile({required this.audio, required this.index});
+  const AudioListTile({required this.index});
 
   @override
   Widget build(BuildContext context) {
+    final audioProvider = Provider.of<AudioProvider>(context);
+    final audioFile = audioProvider.audioFile(index);
+
     return Consumer<AudioProvider>(
       builder: (context, audioProvider, _) {
         final playing = audioProvider.playing;
-        final current = audioProvider.current;
+        AudioFile? currentAudioFile = audioProvider.currentAudioFile;
 
         return ListTile(
           // ここで IconButton を SizedBox で囲む
           leading: SizedBox(
             width: 48, // 適切な幅を設定
             child: IconButton(
-              onPressed: () {
-                if (playing && current == audio) {
-                  audioProvider.pause();
+              onPressed: () async {
+                if (currentAudioFile != audioFile || !playing) {
+                  audioProvider.play(index);
                 } else {
-                  audioProvider.play(audio, index);
+                  audioProvider.pause();
                 }
               },
               icon: Icon(
-                  playing && current == audio ? Icons.pause : Icons.play_arrow),
+                (currentAudioFile != audioFile || !playing)
+                    ? Icons.play_arrow
+                    : Icons.pause,
+              ),
             ),
           ),
-          title: Text(audio.title),
-          subtitle: Text('${audio.artist} - ${audio.album}'),
+          title: Text(audioFile.title),
+          subtitle: Text('${audioFile.artist} - ${audioFile.album}'),
         );
       },
     );
